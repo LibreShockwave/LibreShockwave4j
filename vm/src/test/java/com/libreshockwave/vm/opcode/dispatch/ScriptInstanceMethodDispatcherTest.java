@@ -427,11 +427,15 @@ class ScriptInstanceMethodDispatcherTest {
         }
 
         @Override
-        public Datum getMemberProp(int castLibNumber, int memberNumber, String propName) {
-            if ("type".equalsIgnoreCase(propName) && exposeBootstrapScriptMembers) {
-                return Datum.symbol("script");
-            }
-            return Datum.VOID;
+        public boolean isRegistryVisibleMember(int castLibNumber, int memberNumber) {
+            // The bootstrap path in MemberRegistryMethodDispatcher gates registry
+            // seeding on registry visibility (which defaults to memberExists),
+            // not on the member's "type" property. Expose the bootstrap member
+            // (2, 74) as registry-visible so the prefill seeds pAllMemNumList
+            // before the explicit script handler runs.
+            return exposeBootstrapScriptMembers
+                    && castLibNumber == 2
+                    && memberNumber == 74;
         }
 
         @Override
