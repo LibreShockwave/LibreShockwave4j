@@ -71,11 +71,68 @@ Panels include: Stage, Score, Cast, Script Editor, Property Inspector, Behavior 
 
 The `player-core` module provides platform-independent playback logic with no UI dependencies. Use it to build custom players (JavaFX, headless renderer, server-side processor, etc.).
 
-### Dependency
+### Dependency (in-repo)
 
 ```groovy
 implementation project(':player-core')  // transitively includes :vm and :sdk
 ```
+
+### Maven Central
+
+Published artifacts are available on Maven Central under the `net.libreshockwave` group. `player-core` transitively pulls in `vm` and `sdk`, so most consumers only need the one dependency. Pull in `sdk` (or `vm`) directly if you only want file parsing without the playback engine.
+
+| Artifact ID  | Group ID            | Version |
+|--------------|---------------------|---------|
+| `player-core`| `net.libreshockwave`| `0.1.0` |
+| `sdk`        | `net.libreshockwave`| `0.1.0` |
+| `vm`         | `net.libreshockwave`| `0.1.0` |
+
+**Gradle — `build.gradle` (Groovy DSL):**
+
+```groovy
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'net.libreshockwave:player-core:0.1.0'   // playback (transitively brings :vm and :sdk)
+    // implementation 'net.libreshockwave:sdk:0.1.0'        // parsing only
+}
+```
+
+**Gradle — `build.gradle.kts` (Kotlin DSL):**
+
+```kotlin
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("net.libreshockwave:player-core:0.1.0")
+    // implementation("net.libreshockwave:sdk:0.1.0")
+}
+```
+
+**Maven — `pom.xml`:**
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>net.libreshockwave</groupId>
+        <artifactId>player-core</artifactId>
+        <version>0.1.0</version>
+    </dependency>
+    <!-- For parsing only:
+    <dependency>
+        <groupId>net.libreshockwave</groupId>
+        <artifactId>sdk</artifactId>
+        <version>0.1.0</version>
+    </dependency>
+    -->
+</dependencies>
+```
+
+Requires **Java 21 or later**.
 
 ### Minimal Example
 
