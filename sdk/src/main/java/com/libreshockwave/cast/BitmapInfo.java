@@ -50,7 +50,7 @@ public record BitmapInfo(
 
     /**
      * Version-aware BitmapInfo parsing.
-     * D4/D5 (directorVersion < 1200) and D6+ (>= 1200) have different field layouts
+     * D4/D5 (directorVersion &lt; 1200) and D6+ (&gt;= 1200) have different field layouts
      * but share the same byte positions for pitch, initialRect, regY, regX.
      */
     public static BitmapInfo parse(byte[] data, int directorVersion) {

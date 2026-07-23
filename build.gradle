@@ -1,5 +1,9 @@
 // Root project - LibreShockwave SDK for reading Director/Shockwave files
-group = 'com.libreshockwave'
+plugins {
+    id 'com.vanniktech.maven.publish' version '0.30.0' apply false
+}
+
+group = 'net.libreshockwave'
 version = '0.1.0'
 
 // Apply common settings to all subprojects

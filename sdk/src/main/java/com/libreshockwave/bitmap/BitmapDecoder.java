@@ -9,9 +9,9 @@ public class BitmapDecoder {
 
     /**
      * Decompress RLE-compressed bitmap data (PackBits format).
-     * - If byte < 0x80: copy (byte + 1) literal bytes
+     * - If byte &lt; 0x80: copy (byte + 1) literal bytes
      * - If byte == 0x80: no-op (PackBits standard)
-     * - If byte > 0x80: repeat next byte (0x101 - byte) times
+     * - If byte &gt; 0x80: repeat next byte (0x101 - byte) times
      */
     public static byte[] decompressRLE(byte[] compressed, int expectedSize) {
         if (expectedSize <= 0) {

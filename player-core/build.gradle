@@ -1,12 +1,17 @@
 plugins {
     id 'java'
     id 'java-library'
+    id 'com.vanniktech.maven.publish'
 }
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
+    // sources/javadoc JARs are created and published by the
+    // com.vanniktech.maven.publish plugin below — do not add
+    // withSourcesJar()/withJavadocJar() here, or the publication gets
+    // duplicate artifacts.
 }
 
 repositories {
@@ -20,6 +25,43 @@ dependencies {
     // Test dependencies
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+// ---------------------------------------------------------------------------
+// Maven Central publishing configuration (com.vanniktech.maven.publish).
+// Credentials and signing keys live in ~/.gradle/gradle.properties — never in
+// the repo. See docs/publishing.md for the one-time setup.
+// ---------------------------------------------------------------------------
+mavenPublishing {
+    publishToMavenCentral("CENTRAL_PORTAL")
+    signAllPublications()
+
+    coordinates('net.libreshockwave', 'player-core', rootProject.version.toString())
+
+    pom {
+        name = 'LibreShockwave Player Core'
+        description = 'Core playback engine for Director/Shockwave content, built on the LibreShockwave SDK and Lingo VM.'
+        url = 'https://github.com/LibreShockwave/LibreShockwave4j'
+        inceptionYear = '2024'
+        licenses {
+            license {
+                name = 'GNU Affero General Public License v3.0'
+                url = 'https://www.gnu.org/licenses/agpl-3.0.txt'
+            }
+        }
+        developers {
+            developer {
+                id = 'libreshockwave'
+                name = 'LibreShockwave'
+                url = 'https://libreshockwave.net'
+            }
+        }
+        scm {
+            url = 'https://github.com/LibreShockwave/LibreShockwave4j'
+            connection = 'scm:git:https://github.com/LibreShockwave/LibreShockwave4j.git'
+            developerConnection = 'scm:git:git@github.com:LibreShockwave/LibreShockwave4j.git'
+        }
+    }
 }
 
 tasks.named('test') {
